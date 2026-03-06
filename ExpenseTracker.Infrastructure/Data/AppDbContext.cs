@@ -1,6 +1,7 @@
 ﻿using ExpenseTracker.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace ExpenseTracker.Infrastructure.Data;
 
@@ -13,7 +14,8 @@ public class AppDbContext(IConfiguration configuration) : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection");
-        optionsBuilder.UseSqlServer(connectionString);
+        optionsBuilder.UseSqlServer(connectionString)
+            .LogTo(Console.WriteLine, LogLevel.Information);
 
         base.OnConfiguring(optionsBuilder);
     }

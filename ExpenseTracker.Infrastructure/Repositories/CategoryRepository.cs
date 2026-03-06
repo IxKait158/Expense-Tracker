@@ -7,6 +7,8 @@ namespace ExpenseTracker.Infrastructure.Repositories;
 
 public class CategoryRepository(AppDbContext dbContext) : BaseRepository<Category>(dbContext), ICategoryRepository
 {
+    private readonly AppDbContext _dbContext = dbContext;
+
     public async Task<Category?> GetUserCategoryByNameAsync(string name, Guid userId, CancellationToken cancellationToken)
     {
         return await DbSet
@@ -40,7 +42,7 @@ public class CategoryRepository(AppDbContext dbContext) : BaseRepository<Categor
 
     public async Task<bool> HasTransactionsAsync(Guid id, Guid userId, CancellationToken cancellationToken)
     {
-        return await dbContext.Transactions
+        return await _dbContext.Transactions
             .AsNoTracking()
             .Where(t => t.UserId == userId)
             .AnyAsync(t => t.CategoryId == id, cancellationToken);

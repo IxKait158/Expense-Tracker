@@ -9,8 +9,7 @@ namespace ExpenseTracker.Application.Auth.Commands.Login;
 public class LoginCommandHandler(
     IUnitOfWork unitOfWork,
     IJwtProvider jwtProvider,
-    IPasswordHasher passwordHasher,
-    IMapper mapper)
+    IPasswordHasher passwordHasher)
     : IRequestHandler<LoginCommand, string>
 {
     public async Task<string> Handle(LoginCommand request, CancellationToken cancellationToken)
